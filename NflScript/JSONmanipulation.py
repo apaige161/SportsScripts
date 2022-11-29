@@ -1,3 +1,5 @@
+
+# import json
 # write JSON to a new file
 # with open('data.json', 'w', encoding='utf-8') as f:
 #     json.dump(data, f, ensure_ascii=False, indent=4)
