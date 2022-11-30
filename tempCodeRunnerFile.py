@@ -1,1 +1,1 @@
-playerList = addYearToBirthday(playerList, nextYear)
+formatBirthdayString

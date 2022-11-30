@@ -12,20 +12,21 @@ import requests
 from format import formatBirthdayString
 
 
-def writePlayerDataToCsv(targetSport):
+def writePlayerDataToCsvNBA():
 
-    if (targetSport == 'basketball'):
-            sport = 'basketball/nba'
-    elif (targetSport == 'football'):
-            sport = 'football/nfl'
-    elif(targetSport == 'baseball'):
-            sport = 'baseball/mlb'
-    elif(targetSport == 'hockey'):
-            sport = 'hockey/nhl'
-    else:
-        print('Not an expected sport...')
+    # if (targetSport == 'basketball'):
+    #         sport = 'basketball/nba'
+    # elif (targetSport == 'football'):
+    #         sport = 'football/nfl'
+    #         # http://site.api.espn.com/apis/site/v2/sports/football/nfl/teams
+    # elif(targetSport == 'baseball'):
+    #         sport = 'baseball/mlb'
+    # elif(targetSport == 'hockey'):
+    #         sport = 'hockey/nhl'
+    # else:
+    #     print('Not an expected sport...')
 
-    teamsUrl = 'http://site.api.espn.com/apis/site/v2/sports/'+sport+'/teams'
+    teamsUrl = 'http://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams'
 
     req = requests.get(teamsUrl)
     statusCode = req.status_code
@@ -43,18 +44,19 @@ def writePlayerDataToCsv(targetSport):
         team = data['sports'][0]['leagues'][0]['teams'][i]['team']['abbreviation']
         teamList.append(team)
 
-    print(teamList)
+    print('TEAM LIST', teamList)
 
-    teamBaseUrl = 'http://site.api.espn.com/apis/site/v2/sports/'+sport+'/teams/'
+    teamBaseUrl = 'http://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/'
     print(teamBaseUrl)
 
     # Get each team's player data
     playerList:list = []
+    print('PLAYER LIST', playerList)
 
     # ex/ http://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/Atl/roster
     for team in teamList:
         req = requests.get(teamBaseUrl+team+'/roster')
-        # print('>>>>>>>>>>>>>>>>>>>> TEAM:', team, '<<<<<<<<<<<<<<<<<<<<<<')
+        print('>>>>>>>>>>>>>>>>>>>> TEAM:', team, '<<<<<<<<<<<<<<<<<<<<<<')
         statusCode = req.status_code
 
         if(statusCode != 200):
@@ -66,6 +68,7 @@ def writePlayerDataToCsv(targetSport):
         numberOfPlayers = len(data['athletes'])
 
         for i in range(numberOfPlayers):
+
             playerName = data['athletes'][i]['fullName']
             playerPostion = data['athletes'][i]['position']['abbreviation']
             playerBirthday = data['athletes'][i]['dateOfBirth']
@@ -83,17 +86,13 @@ def writePlayerDataToCsv(targetSport):
             Dict = dict({'Player': playerName, 'Position': playerPostion, 'Team': team, 'Birthday': playerBirthday, 'InjuryStatus': injuryStatus})
             playerList.append(Dict)
     
-    # print(playerList)
+    print(playerList)
 
     # write player data to csv file
     keys = playerList[0].keys()
-    with open( (targetSport+'data.csv'), 'w', newline='' )as output_file:
+    with open( ('Player_basketball.csv'), 'w', newline='' )as output_file:
         dict_writer = csv.DictWriter(output_file, keys)
         dict_writer.writeheader()
         dict_writer.writerows(playerList)
 
-
-
-
-
-writePlayerDataToCsv('basketball')
+writePlayerDataToCsvNBA()
