@@ -3,26 +3,24 @@ import datetime as dt
 from csv import DictReader 
 import csv
 from helper import getAdjustedBirthdays
-
-
-# TODO: write my own script to grab player data from espn website - not all players in NFL list are starters, may be missing some. Add defensive players
-
+import json
 
 # read NFL player CSV and load it into a dict
     # https://blog.finxter.com/convert-csv-to-dictionary-in-python/
 
-def compareBirthdayToNHLSchedule():
+def compareBirthdayToNFLSchedule():
     print('reading player birthdays')
 
     # Store all player data in a list of dictionaries
-    with open("Player_hockey.csv", "r") as birthdayFile:
+    with open("Player_football.csv", "r") as birthdayFile:
         playerList = [*csv.DictReader(birthdayFile)]
         
-
     getAdjustedBirthdays(playerList)
 
     # add week number to the end
-    baserUrl = 'http://site.api.espn.com/apis/site/v2/sports/hocley/nhl/scoreboard?seasontype=2&week=' 
+    baseUrl = 'http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=' 
+
+    playsNearBirthdayList:list = []
 
     # Get data for each week
     for i in range(18):
@@ -30,7 +28,7 @@ def compareBirthdayToNHLSchedule():
         print('***Week', week, '***')
 
         # Read games by week from API
-        adjustedUrl = baserUrl + str(week)
+        adjustedUrl = baseUrl + str(week)
         req = requests.get(adjustedUrl)
         statusCode = req.status_code
 
@@ -42,30 +40,42 @@ def compareBirthdayToNHLSchedule():
         data = req.json()
 
         WeeklyList = data['events']
+        
+        # formattedDate = ''
 
-        for gameWeek in range(len(WeeklyList)):
-            game = WeeklyList[gameWeek]['shortName']
-            Gamedate = WeeklyList[gameWeek]['date'].split("T")
+        for i in range(len(WeeklyList)):
+            game = WeeklyList[i]['shortName']
+            Gamedate = WeeklyList[i]['date'].split("T")
             Gamedate = Gamedate[0]
             updatedDate = Gamedate.split('-')
             formattedDate = dt.datetime(int(updatedDate[0]),int(updatedDate[1]),int(updatedDate[2]))
             # convert date to string
-            GameDay = formattedDate.strftime("%m/%d")
+            GameDay = formattedDate.strftime("%m/%d/%y")
             print(game + ' | Date: ' + GameDay)
+            GameDay = formattedDate.strftime("%m/%d")
             
             # check if any player birthdays are on this day
-            for i in range(len(playerList)):
+            for x in range(len(playerList)):
+                # print player if they play near their birthday /playerList[x]['Team'] in game
+                if ( ((GameDay == playerList[x]['Birthday']) or (GameDay == playerList[x]['BirthdayMinusOne']) or 
+                    (GameDay == playerList[x]['BirthdayMinusTwo']) or (GameDay == playerList[x]['BirthdayPlusTwo']) or
+                    (GameDay == playerList[x]['BirthdayPlusThree']))
+                    and (playerList[x]['Team'] in game)):
+                    # format date
+                    GameDay = formattedDate.strftime("%m/%d/%y")
+                    # Add player data to dict
+                    Dict = dict({'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
+                                'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
+                                'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus']})
+                    playsNearBirthdayList.append(Dict)
 
-                # print player if they play on their birthday
-                if ( 
-                    ((GameDay == playerList[i]['Birthday']) or (GameDay == playerList[i]['BirthdayMinusOne']) or 
-                    (GameDay == playerList[i]['BirthdayMinusTwo']) or (GameDay == playerList[i]['BirthdayPlusTwo']) or
-                    (GameDay == playerList[i]['BirthdayPlusThree']))
-                    and 
-                    (playerList[i]['Team'] in WeeklyList[gameWeek]['shortName'])):
-                        print('*****************************************', playerList[i]['Player'] + ' | ' +  playerList[i]['Position']+ ' | ' +  playerList[i]['Team'] + ' | ' + playerList[i]['Birthday'])
-                        # TODO: Write player data to a file
-                        
-
+                    print('*******Player Added To List*******', playerList[x]['Player'] + ' | ' +  
+                        playerList[x]['Position']+ ' | ' +  playerList[x]['Team'] + ' | ' + 
+                        playerList[x]['Birthday'] +' | ' + playerList[x]['InjuryStatus'])
         print('\n')
-compareBirthdayToNHLSchedule()
+
+    # write players to bet on to csv
+    with open('playsNearBirthdayList_football.json', 'w', encoding='utf-8') as f:
+        json.dump(playsNearBirthdayList, f, ensure_ascii=False, indent=4)
+
+compareBirthdayToNFLSchedule()
