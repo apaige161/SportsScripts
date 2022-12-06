@@ -11,8 +11,10 @@ import json
 def compareBirthdayToNFLSchedule():
     print('reading player birthdays')
 
+    sport = 'football'
+
     # Store all player data in a list of dictionaries
-    with open("Player_football.csv", "r") as birthdayFile:
+    with open("Scripting/Player_football.csv", "r") as birthdayFile:
         playerList = [*csv.DictReader(birthdayFile)]
         
     getAdjustedBirthdays(playerList)
@@ -64,7 +66,7 @@ def compareBirthdayToNFLSchedule():
                     # format date
                     GameDay = formattedDate.strftime("%m/%d/%y")
                     # Add player data to dict
-                    Dict = dict({'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
+                    Dict = dict({'sport': sport, 'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
                                 'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus']})
                     playsNearBirthdayList.append(Dict)

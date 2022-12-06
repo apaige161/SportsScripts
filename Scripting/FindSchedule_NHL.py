@@ -79,8 +79,10 @@ def convertLongNameToShort(team):
 def compareBirthdayToNFHSchedule():
     print('reading player birthdays')
 
+    sport = 'hockey'
+
     # Store all player data in a list of dictionaries
-    with open("Player_hockey.csv", "r") as birthdayFile:
+    with open("Scripting/Player_hockey.csv", "r") as birthdayFile:
         playerList = [*csv.DictReader(birthdayFile)]
         
 
@@ -140,7 +142,7 @@ def compareBirthdayToNFHSchedule():
 
                     GameDay = formattedDate.strftime("%m/%d/%y")
                     
-                    Dict = dict({'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
+                    Dict = dict({'sport': sport, 'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
                                 'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus']})
 
