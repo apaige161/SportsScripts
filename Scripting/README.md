@@ -17,4 +17,4 @@ Start with NFL birthdays on gameday
     - 
 
 LATER:
-    - scrape player data to check if the player is healthy or not
+    - https://docs.djangoproject.com/en/dev/ref/csrf/#unprotected-view-needs-the-csrf-token -> add auth token for post requests

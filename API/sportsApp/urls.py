@@ -21,8 +21,9 @@ from rest_framework.urlpatterns import format_suffix_patterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('players/', views.player_list),
-    path('players/<int:id>/', views.player_detail_plus), # example of cRUD, do not actually use this for sports app 
-    # path('players/<int:id>', views.player_detail)
+    # path('players/<int:id>/', views.player_detail_plus), # example of cRUD, do not actually use this for sports app 
+    path('players/<int:id>', views.player_detail),
+    path('addPlayer/', views.add_player)
 ]
 
 # allow json to be viewed in the JSON

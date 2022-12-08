@@ -12,7 +12,7 @@ def compareBirthdayToNBASchedule():
     sport = 'basketball'
 
     # Store all player data in a list of dictionaries
-    with open("Scripting/Player_basketball.csv", "r") as birthdayFile:
+    with open("Scripting/csv/Player_basketball.csv", "r") as birthdayFile:
         playerList = [*csv.DictReader(birthdayFile)]
         
 
@@ -82,7 +82,7 @@ def compareBirthdayToNBASchedule():
     # print(playsNearBirthdayList)
 
     # write players to bet on to csv
-    with open('playsNearBirthdayList_basketball.json', 'w', encoding='utf-8') as f:
+    with open('Scripting/json/playsNearBirthdayList_basketball.json', 'w', encoding='utf-8') as f:
         json.dump(playsNearBirthdayList, f, ensure_ascii=False, indent=4)
 
 

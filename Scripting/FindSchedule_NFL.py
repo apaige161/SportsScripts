@@ -14,7 +14,7 @@ def compareBirthdayToNFLSchedule():
     sport = 'football'
 
     # Store all player data in a list of dictionaries
-    with open("Scripting/Player_football.csv", "r") as birthdayFile:
+    with open("Scripting/csv/Player_football.csv", "r") as birthdayFile:
         playerList = [*csv.DictReader(birthdayFile)]
         
     getAdjustedBirthdays(playerList)
@@ -77,7 +77,7 @@ def compareBirthdayToNFLSchedule():
         print('\n')
 
     # write players to bet on to csv
-    with open('playsNearBirthdayList_football.json', 'w', encoding='utf-8') as f:
+    with open('Scripting/json/playsNearBirthdayList_football.json', 'w', encoding='utf-8') as f:
         json.dump(playsNearBirthdayList, f, ensure_ascii=False, indent=4)
 
 compareBirthdayToNFLSchedule()

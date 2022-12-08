@@ -5,6 +5,7 @@ import csv
 from helper import getAdjustedBirthdays
 import json
 
+apiString = 'http://127.0.0.1:8000/admin/sportsApp/addplayer/'
 
 def convertLongNameToShort(team):
     if team == 'Anaheim Ducks':
@@ -76,13 +77,13 @@ def convertLongNameToShort(team):
 
 # **** NHL Schedule https://statsapi.web.nhl.com/api/v1/schedule?startDate=2022-06-15&endDate=2023-04-13
 
-def compareBirthdayToNFHSchedule():
+def compareBirthdayToNHLSchedule():
     print('reading player birthdays')
 
     sport = 'hockey'
 
     # Store all player data in a list of dictionaries
-    with open("Scripting/Player_hockey.csv", "r") as birthdayFile:
+    with open("Scripting/csv/Player_hockey.csv", "r") as birthdayFile:
         playerList = [*csv.DictReader(birthdayFile)]
         
 
@@ -146,11 +147,17 @@ def compareBirthdayToNFHSchedule():
                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
                                 'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus']})
 
+                    # # Post data to API
+                    # res = requests.post(apiString, data={'sport': sport, 'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
+                    #                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
+                    #                                 'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus']})
+                    # print(res.json)
+
                     playsNearBirthdayList.append(Dict)
 
     # write players to bet on to csv
-    with open('playsNearBirthdayList_hockey.json', 'w', encoding='utf-8') as f:
+    with open('Scripting/json/playsNearBirthdayList_hockey.json', 'w', encoding='utf-8') as f:
         json.dump(playsNearBirthdayList, f, ensure_ascii=False, indent=4)
 
 
-compareBirthdayToNFHSchedule()
+compareBirthdayToNHLSchedule()

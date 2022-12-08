@@ -47,9 +47,6 @@ media
 # IntelliJ
 out/
 
-# JIRA plugin
-atlassian-ide-plugin.xml
-
 # Python # 
 *.py[cod] 
 *$py.class 
@@ -89,9 +86,6 @@ coverage.xml
 *.cover 
 .hypothesis/ 
 
-# Jupyter Notebook 
-.ipynb_checkpoints 
-
 # pyenv 
 .python-version 
 
@@ -115,13 +109,6 @@ venv.bak/
 
 # mypy 
 .mypy_cache/ 
-
-# Sublime Text # 
-*.tmlanguage.cache 
-*.tmPreferences.cache 
-*.stTheme.cache 
-*.sublime-workspace 
-*.sublime-project 
 
 # sftp configuration file 
 sftp-config.json 

@@ -6,8 +6,11 @@ from django.http import JsonResponse
 from .models import Player
 from .serializers import PlayerSerializer
 from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
+# from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import status
+
 
 @api_view(['GET', 'POST'])
 def player_list(request, format=None):
@@ -26,6 +29,15 @@ def player_list(request, format=None):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+@csrf_exempt
+def add_player(request):
+    serializer = PlayerSerializer(data=request.data)
+    # check for valid data
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # @api_view(['GET', 'PUT', 'DELETE'])
 # def player_detail_plus(request, id, format=None):
