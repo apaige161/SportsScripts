@@ -1,20 +1,48 @@
 # Plan
-Start with NFL birthdays on gameday
 
-## Research checkpoints
-- Get NFL player's birthdays [ x ] -> https://nflbirthdays.com/
-- Get every team's schedule [  ] - espn hidden API -> https://gist.github.com/akeaswaran/b48b02f1c94f873c6655e7129910fc3b &&https://www.reddit.com/r/NFLstatheads/comments/p4n7dm/can_i_pull_the_entire_seasons_schedule_down_from/
-    - http://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${week}
-- Find the players that have birthdays that match week 1 through 18 -> 
+## Scripting 
+DONE:
+- Script to collect player data
+- Script to collect team schedule
+- Script to compare player birthdays and store data into JSON
+
+TODO:
+- Collect odds data -> **Don**
+- Setup (weekly/daily?) service to run player data collection -> **Alex**
 
 
-### TODO
-- write scraped schedule to csv
-- compare each player's birthday, add to new csv file when they play on their birthday
-    - Add in data like: home or away, conference play, position
-    - Check if birthday is within the season
-        - if not move ot next player
-    - 
+## API 
+Framework: Django
 
-LATER:
-    - scrape player data to check if the player is healthy or not
+DONE:
+- MVP
+
+TODO:
+- figure out crsf for frontend interaction
+- connect to external DB to read from
+- Setup auth for frontend
+- login system
+
+
+## Database
+Database: ???
+
+Done:
+
+TODO:
+- Decide on strategy to store data
+- Setup DB
+- Deploy
+
+
+## Front End 
+Framework: ???
+
+Done:
+
+TODO:
+- Decide on framework
+    - angular/react? (leaning toward react)
+- Connect to API
+- MVP for displaying player data -> **Alex**
+- login system
