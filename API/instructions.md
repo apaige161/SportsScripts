@@ -52,8 +52,12 @@ in settings.py -> add 'example' in the 'INSTALLED_APPS' array
 
 
 
+### Front end
+when ready to deploy change the CORS on api
 
-
+**Getting started**
+>> ng serve --open
+- starts the web server
 
 
 
