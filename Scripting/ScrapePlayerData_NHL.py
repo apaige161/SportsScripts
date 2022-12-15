@@ -12,19 +12,9 @@ import requests
 from format import formatBirthdayString
 
 
-def writePlayerDataToCsvNHL():
 
-    # if (targetSport == 'basketball'):
-    #         sport = 'basketball/nba'
-    # elif (targetSport == 'football'):
-    #         sport = 'football/nfl'
-    #         # http://site.api.espn.com/apis/site/v2/sports/football/nfl/teams
-    # elif(targetSport == 'baseball'):
-    #         sport = 'baseball/mlb'
-    # elif(targetSport == 'hockey'):
-    #         sport = 'hockey/nhl'
-    # else:
-    #     print('Not an expected sport...')
+
+def writePlayerDataToCsvNHL():
 
     teamsUrl = 'http://site.api.espn.com/apis/site/v2/sports/hockey/nhl/teams'
 
@@ -84,6 +74,8 @@ def writePlayerDataToCsvNHL():
                     # print(playerName, playerPostion, team, playerBirthday, injuryStatus)
                     # store each player data into a list of dictionaries
                     Dict = dict({'Player': playerName, 'Position': playerPostion, 'Team': team, 'Birthday': playerBirthday, 'InjuryStatus': injuryStatus})
+
+                    # add to the csv file 
                     playerList.append(Dict)
                 else:
                     print('A player was not added becuase they did not have birthday data:', playerName)

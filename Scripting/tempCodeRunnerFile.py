@@ -1,0 +1,1 @@
+collection.insert_one(Dict)

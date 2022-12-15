@@ -9,7 +9,9 @@
 import csv
 import requests
 
+
 from format import formatBirthdayString
+
 
 
 def writePlayerDataToCsvNFL():
@@ -84,6 +86,7 @@ def writePlayerDataToCsvNFL():
                     # print(playerName, playerPostion, team, playerBirthday, injuryStatus)
                     # store each player data into a list of dictionaries
                     Dict = dict({'Player': playerName, 'Position': playerPostion, 'Team': team, 'Birthday': playerBirthday, 'InjuryStatus': injuryStatus})
+
                     playerList.append(Dict)
                 else:
                     print('A player was not added becuase they did not have birthday data:', playerName)

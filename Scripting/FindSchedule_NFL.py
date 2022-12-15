@@ -4,11 +4,20 @@ from csv import DictReader
 import csv
 from helper import getAdjustedBirthdays
 import json
+import pymongo
+from pymongo import MongoClient
 
 # read NFL player CSV and load it into a dict
     # https://blog.finxter.com/convert-csv-to-dictionary-in-python/
 
 def compareBirthdayToNFLSchedule():
+    # initial connection
+    cluster = MongoClient("mongodb+srv://apaige161:nIEacKRy0zP2N1eI@cluster0.xgz1dnl.mongodb.net/?retryWrites=true&w=majority")
+    print('Connected to DB')
+    #define database and collection
+    db = cluster["test"]
+    collection = db["players"]
+
     print('reading player birthdays')
 
     sport = 'football'
@@ -69,11 +78,15 @@ def compareBirthdayToNFLSchedule():
                     Dict = dict({'sport': sport, 'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
                                 'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus']})
-                    playsNearBirthdayList.append(Dict)
+                    # send to DB
+                    collection.insert_one(Dict)
+                    print(Dict)
+                    
+                    # playsNearBirthdayList.append(Dict)
 
-                    print('*******Player Added To List*******', playerList[x]['Player'] + ' | ' +  
-                        playerList[x]['Position']+ ' | ' +  playerList[x]['Team'] + ' | ' + 
-                        playerList[x]['Birthday'] +' | ' + playerList[x]['InjuryStatus'])
+                    # print('*******Player Added To List*******', playerList[x]['Player'] + ' | ' +  
+                    #     playerList[x]['Position']+ ' | ' +  playerList[x]['Team'] + ' | ' + 
+                    #     playerList[x]['Birthday'] +' | ' + playerList[x]['InjuryStatus'])
         print('\n')
 
     # write players to bet on to csv

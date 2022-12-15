@@ -4,6 +4,9 @@ from csv import DictReader
 import csv
 from helper import getAdjustedBirthdays
 import json
+import pymongo
+from pymongo import MongoClient
+
 
 apiString = 'http://127.0.0.1:8000/admin/sportsApp/addplayer/'
 
@@ -78,6 +81,14 @@ def convertLongNameToShort(team):
 # **** NHL Schedule https://statsapi.web.nhl.com/api/v1/schedule?startDate=2022-06-15&endDate=2023-04-13
 
 def compareBirthdayToNHLSchedule():
+
+    # initial connection
+    cluster = MongoClient("mongodb+srv://apaige161:nIEacKRy0zP2N1eI@cluster0.xgz1dnl.mongodb.net/?retryWrites=true&w=majority")
+    print('Connected to DB')
+    #define database and collection
+    db = cluster["test"]
+    collection = db["players"]
+
     print('reading player birthdays')
 
     sport = 'hockey'
@@ -147,17 +158,15 @@ def compareBirthdayToNHLSchedule():
                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
                                 'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus']})
 
-                    # # Post data to API
-                    # res = requests.post(apiString, data={'sport': sport, 'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
-                    #                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
-                    #                                 'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus']})
-                    # print(res.json)
+                    collection.insert_one(Dict)
+                    print(Dict)
 
-                    playsNearBirthdayList.append(Dict)
+                    # playsNearBirthdayList.append(Dict)
 
+    print('All players added to DB')
     # write players to bet on to csv
-    with open('Scripting/json/playsNearBirthdayList_hockey.json', 'w', encoding='utf-8') as f:
-        json.dump(playsNearBirthdayList, f, ensure_ascii=False, indent=4)
+    # with open('Scripting/json/playsNearBirthdayList_hockey.json', 'w', encoding='utf-8') as f:
+    #     json.dump(playsNearBirthdayList, f, ensure_ascii=False, indent=4)
 
 
 compareBirthdayToNHLSchedule()

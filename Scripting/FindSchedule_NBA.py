@@ -4,9 +4,17 @@ from csv import DictReader
 import csv
 from helper import getAdjustedBirthdays
 import json
-
+import pymongo
+from pymongo import MongoClient
 
 def compareBirthdayToNBASchedule():
+    # initial connection
+    cluster = MongoClient("mongodb+srv://apaige161:nIEacKRy0zP2N1eI@cluster0.xgz1dnl.mongodb.net/?retryWrites=true&w=majority")
+    print('Connected to DB')
+    #define database and collection
+    db = cluster["test"]
+    collection = db["players"]
+
     print('reading player birthdays')
 
     sport = 'basketball'
@@ -78,7 +86,11 @@ def compareBirthdayToNBASchedule():
                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
                                 'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus']})
 
-                    playsNearBirthdayList.append(Dict)
+                    # send to DB
+                    collection.insert_one(Dict)
+                    print(Dict)
+                    
+                    # playsNearBirthdayList.append(Dict)
     # print(playsNearBirthdayList)
 
     # write players to bet on to csv

@@ -9,7 +9,9 @@
 import csv
 import requests
 
+
 from format import formatBirthdayString
+
 
 
 def writePlayerDataToCsvNBA():
