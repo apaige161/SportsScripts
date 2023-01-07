@@ -1,1 +1,3 @@
-collection.insert_one(Dict)
+from FindSchedule_NHL import compareBirthdayToNHLSchedule
+# from FindSchedule_NFL import compareBirthdayToNFLSchedule
+# from FindSchedule_NBA import compareBirthdayToNBASchedule

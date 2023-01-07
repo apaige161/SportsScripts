@@ -75,22 +75,25 @@ def compareBirthdayToNFLSchedule():
                     # format date
                     GameDay = formattedDate.strftime("%m/%d/%y")
                     # Add player data to dict
-                    Dict = dict({'sport': sport, 'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
+                    Dict = dict({'Sport': sport, 'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
-                                'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus']})
+                                'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus'],
+                                'TeamLogoUrl': playerList[x]['TeamLogoUrl'], 'PlayerImgUrl': playerList[x]['PlayerImgUrl']})
                     # send to DB
-                    collection.insert_one(Dict)
-                    print(Dict)
+                    # collection.insert_one(Dict)
+                    collection.update_one({'Player': Dict['Player']}, {"$set": {'InjuryStatus': Dict['InjuryStatus']}})
+                    # print(Dict)
                     
-                    # playsNearBirthdayList.append(Dict)
+                    playsNearBirthdayList.append(Dict)
 
                     # print('*******Player Added To List*******', playerList[x]['Player'] + ' | ' +  
                     #     playerList[x]['Position']+ ' | ' +  playerList[x]['Team'] + ' | ' + 
                     #     playerList[x]['Birthday'] +' | ' + playerList[x]['InjuryStatus'])
         print('\n')
+        print('All players updated in DB')
 
     # write players to bet on to csv
     with open('Scripting/json/playsNearBirthdayList_football.json', 'w', encoding='utf-8') as f:
         json.dump(playsNearBirthdayList, f, ensure_ascii=False, indent=4)
 
-compareBirthdayToNFLSchedule()
+# compareBirthdayToNFLSchedule()

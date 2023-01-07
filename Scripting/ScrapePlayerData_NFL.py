@@ -44,6 +44,7 @@ def writePlayerDataToCsvNFL():
 
     for i in range(len(data['sports'][0]['leagues'][0]['teams'])):
         team = data['sports'][0]['leagues'][0]['teams'][i]['team']['abbreviation']
+        teamLogoUrl = data['sports'][0]['leagues'][0]['teams'][i]['team']['logos'][0]['href']
         teamList.append(team)
 
     print('TEAM LIST', teamList)
@@ -73,6 +74,11 @@ def writePlayerDataToCsvNFL():
             for x in range(len(data['athletes'][i]['items'])):
                 playerName = data['athletes'][i]['items'][x]['fullName']
                 playerPostion = data['athletes'][i]['items'][x]['position']['abbreviation']
+                if('headshot' in data['athletes'][i]['items'][x]):
+                    playerImgUrl = data['athletes'][i]['items'][x]['headshot']['href']
+                else:
+                    playerImgUrl = ""
+                    
                 if ('dateOfBirth' in data['athletes'][i]['items'][x]):
                     playerBirthday = data['athletes'][i]['items'][x]['dateOfBirth']
                     # format date
@@ -85,7 +91,7 @@ def writePlayerDataToCsvNFL():
                         injuryStatus = 'Healthy'
                     # print(playerName, playerPostion, team, playerBirthday, injuryStatus)
                     # store each player data into a list of dictionaries
-                    Dict = dict({'Player': playerName, 'Position': playerPostion, 'Team': team, 'Birthday': playerBirthday, 'InjuryStatus': injuryStatus})
+                    Dict = dict({'Player': playerName, 'Position': playerPostion, 'Team': team, 'Birthday': playerBirthday, 'InjuryStatus': injuryStatus, 'TeamLogoUrl': teamLogoUrl, 'PlayerImgUrl': playerImgUrl})
 
                     playerList.append(Dict)
                 else:
@@ -93,14 +99,14 @@ def writePlayerDataToCsvNFL():
                 
                 
         
-    print(playerList)
+    # print(playerList)
 
     # write player data to csv file
     keys = playerList[0].keys()
-    with open( ('Player_football.csv'), 'w', newline='' )as output_file:
+    with open( ('Scripting/csv/Player_football.csv'), 'w', newline='' )as output_file:
         dict_writer = csv.DictWriter(output_file, keys)
         dict_writer.writeheader()
         dict_writer.writerows(playerList)
 
 
-writePlayerDataToCsvNFL()
+# writePlayerDataToCsvNFL()
