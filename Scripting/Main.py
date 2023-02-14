@@ -7,6 +7,8 @@ from FindSchedule_NHL import compareBirthdayToNHLSchedule
 from FindSchedule_NFL import compareBirthdayToNFLSchedule
 from FindSchedule_NBA import compareBirthdayToNBASchedule
 
+from injuryReport import getInjuryReport
+
 
 
 # collect player data
@@ -18,3 +20,8 @@ writePlayerDataToCsvNHL()
 compareBirthdayToNHLSchedule()
 compareBirthdayToNFLSchedule()
 compareBirthdayToNBASchedule()
+
+# Get injury report
+getInjuryReport("basketball")
+getInjuryReport("football")
+getInjuryReport("hockey")

@@ -52,11 +52,9 @@ def compareBirthdayToNBASchedule():
             awayTeam = data['leagueSchedule']['gameDates'][i]['games'][x]['awayTeam']['teamTricode']
             homeTeam = data['leagueSchedule']['gameDates'][i]['games'][x]['homeTeam']['teamTricode']
             gameData = {'date': date, 'awayTeam': awayTeam, 'homeTeam': homeTeam}
-            # print(gameData)
+            print(gameData)
             gamesData.append(gameData)
 
-    # debug only
-    # print(gamesData)
 
     
     for i in range(len(gamesData)):

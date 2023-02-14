@@ -44,6 +44,7 @@ def writePlayerDataToCsvNBA():
     # ex/ http://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/Atl/roster
     for team in teamList:
         req = requests.get(teamBaseUrl+team+'/roster')
+        
         print('>>>>>>>>>>>>>>>>>>>> TEAM:', team, '<<<<<<<<<<<<<<<<<<<<<<')
         statusCode = req.status_code
 
