@@ -7,7 +7,7 @@ import json
 import pymongo
 from pymongo import MongoClient
 
-def compareBirthdayToNBASchedule():
+def compareBirthdayToMLBSchedule():
     # initial connection
     cluster = MongoClient("mongodb+srv://apaige161:nIEacKRy0zP2N1eI@cluster0.xgz1dnl.mongodb.net/?retryWrites=true&w=majority")
     print('Connected to DB')
@@ -17,17 +17,17 @@ def compareBirthdayToNBASchedule():
 
     print('reading player birthdays')
 
-    sport = 'basketball'
+    sport = 'baseball'
 
     # Store all player data in a list of dictionaries
-    with open("Scripting/csv/Player_basketball.csv", "r") as birthdayFile:
+    with open("Scripting/csv/Player_baseball.csv", "r") as birthdayFile:
         playerList = [*csv.DictReader(birthdayFile)]
         
 
     getAdjustedBirthdays(playerList)
 
     # add week number to the end
-    Url = 'https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json' 
+    Url = 'http://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard?seasontype=2' 
 
     # Read games by week from API
     req = requests.get(Url)
@@ -44,28 +44,25 @@ def compareBirthdayToNBASchedule():
     
     print('Getting schedule data...')
     # grab game date in outer loop
-    for i in range(len(data['leagueSchedule']['gameDates'])):
-        date = data['leagueSchedule']['gameDates'][i]['gameDate']
-        # print(date)
-        # loop over how ever many games are on that day
-        for x in range(len(data['leagueSchedule']['gameDates'][i]['games'])):
-            awayTeam = data['leagueSchedule']['gameDates'][i]['games'][x]['awayTeam']['teamTricode']
-            homeTeam = data['leagueSchedule']['gameDates'][i]['games'][x]['homeTeam']['teamTricode']
-            gameData = {'date': date, 'awayTeam': awayTeam, 'homeTeam': homeTeam}
-            print(gameData)
-            gamesData.append(gameData)
 
+    for i in range(len(data['events'])):
+        shortName = data['events'][i]['shortName']
+        teamArr = shortName.split('@')
+        homeTeam = teamArr[1].strip()
+        awayTeam = teamArr[0].strip()
+        # print(awayTeam, homeTeam)
 
-    
-    for i in range(len(gamesData)):
-        updatedDate = gamesData[i]['date'].split(' ')
-        # convert date to string
-        splitDate = updatedDate[0].split('/')
-        formattedDate = dt.datetime(int(splitDate[2]),int(splitDate[0]),int(splitDate[1]))
+        date = data['events'][i]['date']
+        updatedDate = date.split('T')
+        splitDate = updatedDate[0].split('-')
+        formattedDate = dt.datetime(int(splitDate[0]),int(splitDate[1]),int(splitDate[2]))
         GameDay = formattedDate.strftime("%m/%d")
-        print('Date: ' + GameDay + ' | ' + gamesData[i]['awayTeam'] + ' @ ' + gamesData[i]['homeTeam'])
-        
-        # check if any player birthdays are on this day
+
+        gameData = {'date': GameDay, 'awayTeam': awayTeam, 'homeTeam': homeTeam}
+        print(gameData)
+        gamesData.append(gameData)
+    
+        #   check if any player birthdays are on this day
         for x in range(len(playerList)):
 
             # print player if they play on their birthday
@@ -84,22 +81,22 @@ def compareBirthdayToNBASchedule():
                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
                                 'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus'],
                                 'TeamLogoUrl': playerList[x]['TeamLogoUrl'], 'PlayerImgUrl': playerList[x]['PlayerImgUrl'],
-                                'Stats': {'data':-1}, 'TeamInjuryReport': [-1]})
+                                'Stats': {'data':-1}, 'TeamInjuryReport': [-1], '_id': i})
 
-                    # send to DB
-                    # collection.insert_one(Dict) # <-- run this at start of the season
-                    # collection.update_one({'Player': Dict['Player']}, {"$set": {'InjuryStatus': Dict['InjuryStatus']}})
-                    # print(Dict)
-                    
                     playsNearBirthdayList.append(Dict)
-    # print(playsNearBirthdayList)
+                    # send to DB
+                    collection.insert_one(Dict) # <-- run this at start of the season
+                    # collection.update_one({'Player': Dict['Player']}, {"$set": {'InjuryStatus': Dict['InjuryStatus']}})
+                    print(Dict)
+                    
+                    
 
     print('\n')
-    print('All players added to Scripting/json/playsNearBirthdayList_basketball.json')
+    print('All players added to Scripting/json/playsNearBirthdayList_baseball.json')
 
     # write players to bet on to csv
-    with open('Scripting/json/playsNearBirthdayList_basketball.json', 'w', encoding='utf-8') as f:
+    with open('Scripting/json/playsNearBirthdayList_baseball.json', 'w', encoding='utf-8') as f:
         json.dump(playsNearBirthdayList, f, ensure_ascii=False, indent=4)
 
 
-# compareBirthdayToNBASchedule()
+# compareBirthdayToMLBSchedule()

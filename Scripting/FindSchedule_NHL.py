@@ -8,7 +8,7 @@ import pymongo
 from pymongo import MongoClient
 
 
-apiString = 'http://127.0.0.1:8000/admin/sportsApp/addplayer/'
+# apiString = 'http://127.0.0.1:8000/admin/sportsApp/addplayer/'
 
 def convertLongNameToShort(team):
     if team == 'Anaheim Ducks':
@@ -157,16 +157,17 @@ def compareBirthdayToNHLSchedule():
                     Dict = dict({'Sport': sport, 'Player': playerList[x]['Player'], 'Position': playerList[x]['Position'], 
                                 'Team': playerList[x]['Team'], 'Birthday': playerList[x]['Birthday'], 
                                 'GameDay': GameDay, 'InjuryStatus': playerList[x]['InjuryStatus'],
-                                'TeamLogoUrl': playerList[x]['TeamLogoUrl'], 'PlayerImgUrl': playerList[x]['PlayerImgUrl']})
+                                'TeamLogoUrl': playerList[x]['TeamLogoUrl'], 'PlayerImgUrl': playerList[x]['PlayerImgUrl'],
+                                'ID':-1, 'Stats': {'data':-1}, 'TeamInjuryReport': [-1]})
 
                     # collection.insert_one(Dict)
-                    collection.update_one({'Player': Dict['Player']}, {"$set": {'InjuryStatus': Dict['InjuryStatus']}})
+                    # collection.update_one({'Player': Dict['Player']}, {"$set": {'InjuryStatus': Dict['InjuryStatus']}})
                     # print(Dict)
 
                     playsNearBirthdayList.append(Dict)
 
     print('\n')
-    print('All players updated in DB')
+    print('All players added to Scripting/json/playsNearBirthdayList_hockey.json')
 
     # write players to bet on to csv
     with open('Scripting/json/playsNearBirthdayList_hockey.json', 'w', encoding='utf-8') as f:

@@ -17,17 +17,6 @@ def getInjuryReport(sport):
 
     injuryReport = []
   
-    ############# Read game data
-    # Opening JSON file
-    # print('Reading game Data')
-    # f = open('Scripting/json/gameData_'+ sport+'.json')
-
-    # # returns JSON object as 
-    # # a dictionary
-    # gameData = json.load(f)
-
-    # # Closing file
-    # f.close()
 
     ############# Read player Data
     csvFilePath = 'Scripting/csv/Player_'+ sport+'.csv'

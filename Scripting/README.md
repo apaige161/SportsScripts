@@ -9,12 +9,4 @@ Start with NFL birthdays on gameday
 
 
 ### TODO
-- write scraped schedule to csv
-- compare each player's birthday, add to new csv file when they play on their birthday
-    - Add in data like: home or away, conference play, position
-    - Check if birthday is within the season
-        - if not move ot next player
-    - 
-
-LATER:
-    - https://docs.djangoproject.com/en/dev/ref/csrf/#unprotected-view-needs-the-csrf-token -> add auth token for post requests
+- only write to DB at the end of scripting, not at every stage
