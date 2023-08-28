@@ -22,33 +22,35 @@ from injuryReport import getInjuryReport
 
 
 ########################################## collect player data
-writePlayerDataToCsvNBA()
-writePlayerDataToCsvNFL()
-writePlayerDataToCsvNHL()
-writePlayerDataToCsvMLB()
+# writePlayerDataToCsvNBA()
+writePlayerDataToCsvNFL() # good to go
+# writePlayerDataToCsvNHL()
+# writePlayerDataToCsvMLB()
 
 ######################################### compare schedule to player birthday
-compareBirthdayToNHLSchedule()
-# compareBirthdayToNFLSchedule()
-compareBirthdayToNBASchedule()
-compareBirthdayToMLBSchedule()
+# compareBirthdayToNHLSchedule()
+compareBirthdayToNFLSchedule() # good to go
+# compareBirthdayToNBASchedule()
+# compareBirthdayToMLBSchedule()
 
 ######################################### Get injury report
-getInjuryReport("basketball")
+# getInjuryReport("basketball")
 getInjuryReport("football")
-getInjuryReport("hockey")
+# getInjuryReport("hockey")
 
 ######################################## Add Stats
-getNbaStats()
-getNhlStats()
+# getNbaStats()
+# getNhlStats()
 # writeNbaStatsToDb()
 # writeNhlStatsToDb()
 
 ######################################## Add Injury report to player data
-setplayerStatsPlusTeamInjuries('basketball')
-setplayerStatsPlusTeamInjuries('hockey')
+# setplayerStatsPlusTeamInjuries('basketball')
+# setplayerStatsPlusTeamInjuries('hockey')
 
-# setplayerStatsPlusTeamInjuries('football')
+setplayerStatsPlusTeamInjuries('football')
 
-writePlayersToDb('basketball')
-writePlayersToDb('hockey')
+# writePlayersToDb('basketball')
+# writePlayersToDb('hockey')
+
+writePlayersToDb('football')

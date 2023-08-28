@@ -34,8 +34,8 @@ def getInjuryReport(sport):
                 #add this python dict to json array
                 injuryReport.append(dict)
 
-                # collection.insert_one(dict) # <-- run this at start of the season
-                collection.update_one({'Player': dict['Player']}, {"$set": {'InjuryStatus': dict['InjuryStatus']}})
+                collection.insert_one(dict) # <-- run this at start of the season
+                # collection.update_one({'Player': dict['Player']}, {"$set": {'InjuryStatus': dict['InjuryStatus']}})
                 dict['_id'] = '' 
     print('Updated DB for', sport)
     # write players to bet on to csv

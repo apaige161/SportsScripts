@@ -82,7 +82,7 @@ def compareBirthdayToNFLSchedule():
                                 'ID':-1, 'Stats': {'data':-1}, 'TeamInjuryReport': [-1]})
                     # send to DB
                     # collection.insert_one(Dict)
-                    # collection.update_one({'Player': Dict['Player']}, {"$set": {'InjuryStatus': Dict['InjuryStatus']}})
+                    collection.update_one({'Player': Dict['Player']}, {"$set": {'InjuryStatus': Dict['InjuryStatus']}})
                     # print(Dict)
                     
                     playsNearBirthdayList.append(Dict)
@@ -97,4 +97,4 @@ def compareBirthdayToNFLSchedule():
     with open('Scripting/json/playsNearBirthdayList_football.json', 'w', encoding='utf-8') as f:
         json.dump(playsNearBirthdayList, f, ensure_ascii=False, indent=4)
 
-compareBirthdayToNFLSchedule()
+# compareBirthdayToNFLSchedule()

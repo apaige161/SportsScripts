@@ -28,14 +28,17 @@ def writePlayerDataToCsvNFL():
     # else:
     #     print('Not an expected sport...')
 
-    teamsUrl = 'http://site.api.espn.com/apis/site/v2/sports/football/nfl/teams'
+    teamBaseUrl = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams'
 
-    req = requests.get(teamsUrl)
+    req = requests.get(teamBaseUrl)
     statusCode = req.status_code
 
     if(statusCode != 200):
         print('Status Code: ', statusCode)
         quit()
+    else:
+        print("API connection OK")
+
 
     # convert data to JSON
     data = req.json()
@@ -49,7 +52,6 @@ def writePlayerDataToCsvNFL():
 
     print('TEAM LIST', teamList)
 
-    teamBaseUrl = 'http://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/'
     print(teamBaseUrl)
 
     # Get each team's player data
@@ -58,7 +60,7 @@ def writePlayerDataToCsvNFL():
 
     # ex/ http://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/Atl/roster
     for team in teamList:
-        req = requests.get(teamBaseUrl+team+'/roster')
+        req = requests.get(teamBaseUrl+'/'+team+'/roster')
         print('>>>>>>>>>>>>>>>>>>>> TEAM:', team, '<<<<<<<<<<<<<<<<<<<<<<')
         statusCode = req.status_code
 
